@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "744082705259",
+    "project_id": "thixproinsurance",
+    "storage_bucket": "thixproinsurance.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:744082705259:android:5edefa476608b7e13e5a2e",
+        "android_client_info": {
+          "package_name": "com.example.Thixpro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "744082705259-2lu81viaca4k413lkua7o0pcsappfup1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_bB-a-vQYHUrbgLmFBq_dspRISYc4VNY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "744082705259-2lu81viaca4k413lkua7o0pcsappfup1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

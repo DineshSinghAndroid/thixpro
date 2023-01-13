@@ -1,17 +1,10 @@
-import 'package:Thixpro/resources/app_theme.dart';
-import 'package:Thixpro/router/my_router.dart';
-import 'package:Thixpro/screens/messages/chat.dart';
-import 'package:Thixpro/screens/messages/providers/login.dart';
-import 'package:Thixpro/screens/messages/screens/login.dart';
-import 'package:Thixpro/testi.dart';
+import 'package:Thixpro/screens/common/login.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:get/get_navigation/src/routes/transitions_type.dart';
-import 'package:provider/provider.dart';
-import 'package:stream_chat_flutter/stream_chat_flutter.dart';
-import 'package:stream_chat_localizations/stream_chat_localizations.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -21,15 +14,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Socket.IO',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: ChangeNotifierProvider(
-        create: (context) => LoginProvider(),
-        child: const LoginScreen(),
-      ),
+      title: 'Flutter Demo',
+      theme: ThemeData(primarySwatch: Colors.indigo),
+      themeMode: ThemeMode.light,
+      home: const AuthGate(),
     );
+  }
+}
+
+class AuthGate extends StatelessWidget {
+  const AuthGate({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Login();
   }
 }

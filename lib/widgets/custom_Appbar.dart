@@ -116,7 +116,7 @@ class CustomAppbar extends StatelessWidget {
         //     : const SizedBox()
       ],
       bottom: PreferredSize(
-        preferredSize: Size(AddSize.screenWidth, AddSize.size14),
+        preferredSize: Size(AddSize.size125, AddSize.size14),
         child: Container(
           decoration: BoxDecoration(
               color: Colors.white,

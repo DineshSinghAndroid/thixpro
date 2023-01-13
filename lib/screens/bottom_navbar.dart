@@ -1,27 +1,25 @@
 import 'package:Thixpro/screens/messages/chat.dart';
-import 'package:Thixpro/screens/profile.dart';
 import 'package:Thixpro/screens/video_call.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import '../resources/app_theme.dart';
 import '../widgets/sementions.dart';
 import 'home.dart';
 
-class BottomNavbar extends StatefulWidget {
-  const BottomNavbar({Key? key}) : super(key: key);
+class BottomNavbars extends StatefulWidget {
+  const BottomNavbars({Key? key}) : super(key: key);
 
   @override
-  State<BottomNavbar> createState() => _BottomNavbarState();
+  State<BottomNavbars> createState() => _BottomNavbarsState();
 }
 
-class _BottomNavbarState extends State<BottomNavbar> {
+class _BottomNavbarsState extends State<BottomNavbars> {
   int currentTab = 0;
   final List<Widget> screens = [
     HomeScreen(),
     VideoCall(),
     ChatScreen(),
-    ProfilePage(),
+    ChatScreen(),
   ];
 
   final PageStorageBucket list = PageStorageBucket();
@@ -60,7 +58,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
                             height: AddSize.size22,
                             child: Icon(
                               Icons.home,
-                              size: AddSize.size20,
+                              size: AddSize.size12,
                               color: currentTab == 0
                                   ? AppTheme.primaryColor
                                   : Colors.grey,
@@ -90,7 +88,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
                             height: AddSize.size22,
                             child: Icon(
                               Icons.video_call,
-                              size: AddSize.size20,
+                              size: AddSize.size12,
                               color: currentTab == 1
                                   ? AppTheme.primaryColor
                                   : Colors.grey,
@@ -126,7 +124,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
                             height: AddSize.size22,
                             child: Icon(
                               Icons.home,
-                              size: AddSize.size20,
+                              size: AddSize.size12,
                               color: currentTab == 2
                                   ? AppTheme.primaryColor
                                   : Colors.grey,
@@ -149,7 +147,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
                     minWidth: AddSize.size40,
                     onPressed: () {
                       setState(() {
-                        currentScreen = ProfilePage();
+                        currentScreen = ChatScreen();
                         currentTab = 3;
                       });
                     },
@@ -160,7 +158,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
                             height: AddSize.size22,
                             child: Icon(
                               Icons.person,
-                              size: AddSize.size20,
+                              size: AddSize.size12,
                               color: currentTab == 3
                                   ? AppTheme.primaryColor
                                   : Colors.grey,

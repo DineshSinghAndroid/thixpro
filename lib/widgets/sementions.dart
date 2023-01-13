@@ -4,8 +4,8 @@ import '../resources/app_theme.dart';
 import 'add_text.dart';
 
 class AddSize {
-  static final screenHeight = Get.context!.height;
-  static final screenWidth = Get.context!.width;
+  static final screenHeight = 800;
+  static final screenWidth = 420;
 
   ///height 804 ///width 393
 

@@ -1,4 +1,7 @@
 import 'package:Thixpro/router/my_router.dart';
+import 'package:Thixpro/screens/messages/model/usermodel.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:Thixpro/screens/common/sign_up.dart';
 import 'package:get/get.dart';
@@ -18,6 +21,38 @@ class _LoginState extends State<Login> {
   void initState() {
     // TODO: implement initState
     super.initState();
+  }
+
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  void checkValues() {
+    String email = emailController.text.trim();
+    String password = passwordController.text.trim();
+    if (email == "" || password == "") {
+      print("Dal de bhai email password");
+    } else {
+      logins(email, password);
+    }
+  }
+
+  void logins(String email, String password) async {
+    UserCredential? credential;
+    try {
+      credential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+    } on FirebaseAuthException catch (ex) {
+      print("Login Firebase error message " + ex.message.toString());
+    }
+
+    if (credential != null) {
+      String uid = credential.user!.uid;
+      DocumentSnapshot userData =
+          await FirebaseFirestore.instance.collection('users').doc(uid).get();
+      UserModel userModel =
+          UserModel.fromMap(userData.data() as Map<String, dynamic>);
+      print("Login in sucessfull");
+    }
   }
 
   @override
@@ -49,6 +84,7 @@ class _LoginState extends State<Login> {
                           color: Colors.purple.withOpacity(0.1),
                           borderRadius: BorderRadius.all(Radius.circular(30))),
                       child: TextFormField(
+                        controller: emailController,
                         decoration: InputDecoration(
                             hintText: "Your email",
                             hintStyle: TextStyle(color: Colors.black),
@@ -71,6 +107,7 @@ class _LoginState extends State<Login> {
                           color: Colors.purple.withOpacity(0.1),
                           borderRadius: BorderRadius.all(Radius.circular(30))),
                       child: TextFormField(
+                        controller: passwordController,
                         decoration: InputDecoration(
                             hintText: "Your Password",
                             hintStyle: TextStyle(color: Colors.black),
@@ -87,7 +124,7 @@ class _LoginState extends State<Login> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Get.toNamed(MyRouter.bottomNavbar);
+                        checkValues();
                       },
                       child: Container(
                         width: MediaQuery.of(context).size.width,
@@ -96,6 +133,7 @@ class _LoginState extends State<Login> {
                             color: Colors.purple,
                             borderRadius:
                                 BorderRadius.all(Radius.circular(30))),
+                        alignment: Alignment.center,
                         child: Text(
                           "SIGN IN ",
                           style: TextStyle(
@@ -103,7 +141,6 @@ class _LoginState extends State<Login> {
                               fontSize: 16,
                               fontWeight: FontWeight.w600),
                         ),
-                        alignment: Alignment.center,
                       ),
                     ),
                     SizedBox(height: 15),

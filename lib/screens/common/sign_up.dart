@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,6 +12,7 @@ import '../../resources/new_helper.dart';
 import '../../widgets/add_text.dart';
 import '../../widgets/common_button.dart';
 import '../../widgets/sementions.dart';
+import '../messages/model/usermodel.dart';
 import 'login.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -20,12 +23,52 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController cPasswordController = TextEditingController();
   RxList<DropDownValues> dropDownValues = <DropDownValues>[
     DropDownValues(title: "Gst", slug: "gst"),
     DropDownValues(title: "Corporate", slug: "corporate"),
     DropDownValues(title: "Tax", slug: "tax"),
     DropDownValues(title: "ITR", slug: "itr"),
   ].obs;
+  void checkValues() {
+    String email = emailController.text.trim();
+    String password = passwordController.text.trim();
+    if (email == "" || password == "") {
+      print("Dal de bhai email password");
+    } else {
+      signUps(email, password);
+    }
+  }
+
+  void signUps(String email, String password) async {
+    UserCredential? credential;
+    try {
+      credential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+    } on FirebaseAuthException catch (ex) {
+      print(ex.code.toString());
+    }
+    if (credential != null) {
+      String uid = credential.user!.uid;
+      UserModel newUser = UserModel(
+        uid: uid,
+        email: email,
+        fullName: '',
+        profilePic: '',
+      );
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(uid)
+          .set(newUser.toMap())
+          .then((value) => (value) {
+                print("New User Created BROOOOOOOOOOOOO");
+              });
+    } else {
+      print("Not working bhai");
+    }
+  }
 
   RxString currentSelectedDocument = "".obs;
 
@@ -148,8 +191,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           color: Colors.purple.withOpacity(0.1),
                           borderRadius: BorderRadius.all(Radius.circular(30))),
                       child: TextFormField(
+                        controller: emailController,
                         decoration: InputDecoration(
-                            hintText: "Your email",
+                            hintText: "Your emails",
                             hintStyle: TextStyle(color: Colors.black),
                             border: InputBorder.none,
                             prefixIcon: Icon(
@@ -227,7 +271,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           borderRadius: BorderRadius.all(Radius.circular(30))),
                       child: TextFormField(
                         decoration: InputDecoration(
-                            hintText: "Your email",
+                            hintText: "",
                             hintStyle: TextStyle(color: Colors.black),
                             border: InputBorder.none,
                             prefixIcon: Icon(
@@ -270,6 +314,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           color: Colors.purple.withOpacity(0.1),
                           borderRadius: BorderRadius.all(Radius.circular(30))),
                       child: TextFormField(
+                        controller: passwordController,
                         decoration: InputDecoration(
                             hintText: "Your Password",
                             hintStyle: TextStyle(color: Colors.black),
@@ -377,7 +422,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       height: 40,
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        checkValues();
+                      },
                       child: Container(
                         width: MediaQuery.of(context).size.width,
                         height: 60,

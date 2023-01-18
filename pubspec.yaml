@@ -53,10 +53,10 @@ dependencies:
   socket_io_client: ^2.0.0-beta.4-nullsafety.0
   firebase_storage:
   image_picker: ^0.8.4+1
-  image_cropper: ^1.4.1
+  image_cropper: ^3.0.1
   uuid: ^3.0.5
+  agora_rtc_engine:
   permission_handler:
-  agora_rtc_engine: ^6.1.0
 
 
 

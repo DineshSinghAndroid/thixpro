@@ -1,32 +1,65 @@
-import 'package:Thixpro/screens/common/login.dart';
-import 'package:flutter/material.dart';
+import 'package:Thixpro/screens/common/splash.dart';
+import 'package:Thixpro/screens/videocall/index.dart';
+import 'package:Thixpro/testing/models/FirebaseHelper.dart';
+import 'package:Thixpro/testing/models/UserModel.dart';
+import 'package:Thixpro/testing/pages/HomePage.dart';
+import 'package:Thixpro/testing/pages/LoginPage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
+
+var uuid = const Uuid();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+
+  User? currentUser = FirebaseAuth.instance.currentUser;
+  if(currentUser != null) {
+    // Logged In
+    UserModel? thisUserModel = await FirebaseHelper.getUserModelById(currentUser.uid);
+    if(thisUserModel != null) {
+      runApp(MyAppLoggedIn(userModel: thisUserModel, firebaseUser: currentUser));
+    }
+    else {
+      runApp(const MyApp());
+    }
+  }
+  else {
+    // Not logged in
+    runApp(const MyApp());
+  }
 }
 
+
+// Not Logged In
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({ Key? key }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(primarySwatch: Colors.indigo),
-      themeMode: ThemeMode.light,
-      home: const AuthGate(),
+      home: LoginPage(),
     );
   }
 }
 
-class AuthGate extends StatelessWidget {
-  const AuthGate({Key? key}) : super(key: key);
+
+// Already Logged In
+class MyAppLoggedIn extends StatelessWidget {
+  final UserModel userModel;
+  final User firebaseUser;
+
+  const MyAppLoggedIn({Key? key, required this.userModel, required this.firebaseUser}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Login();
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      // home: HomePage(userModel: userModel, firebaseUser: firebaseUser),
+      home: IndexPage(),
+    );
   }
 }

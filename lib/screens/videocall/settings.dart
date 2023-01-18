@@ -1,0 +1,2 @@
+const appId = "bdf2e785471941bc8fb5fdb9d21d529a";
+const videoToken = "007eJxTYIixtBVuvHLRpoPLqVwxMXSW84cTLyJOKc8rPHj4k7BzRosCQ1JKmlGquYWpibmhpYlhUrJFWpJpWkqSZYqRYYqpkWXiqXPHkhsCGRkqY9wYGKEQxGdnKMnIrCgoymdgAACLtSD4";

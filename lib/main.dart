@@ -1,8 +1,8 @@
 import 'package:Thixpro/screens/common/login.dart';
 import 'package:Thixpro/screens/common/splash.dart';
 import 'package:Thixpro/screens/messages/model/usermodel.dart';
-import 'package:Thixpro/screens/videocall/index.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:Thixpro/screens/videocall/jistimeet.dart';
+ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
@@ -54,10 +54,10 @@ class MyAppLoggedIn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return   MaterialApp(
       debugShowCheckedModeBanner: false,
       // home: HomePage(userModel: userModel, firebaseUser: firebaseUser),
-      home: IndexPage(),
+      home: Meeting(),
     );
   }
 }

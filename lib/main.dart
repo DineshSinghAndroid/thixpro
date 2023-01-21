@@ -1,10 +1,10 @@
 import 'package:Thixpro/screens/common/login.dart';
 import 'package:Thixpro/screens/common/splash.dart';
 import 'package:Thixpro/screens/messages/model/usermodel.dart';
-import 'package:Thixpro/screens/videocall/jistimeet.dart';
- import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:uuid/uuid.dart';
 
 var uuid = const Uuid();
@@ -30,34 +30,32 @@ void main() async {
   // }
 }
 
-
 // Not Logged In
 class MyApp extends StatelessWidget {
-  const MyApp({ Key? key }) : super(key: key);
-
+  MyApp({Key? key}) : super(key: key);
+  var logger = Logger();
   @override
   Widget build(BuildContext context) {
-    return   MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Login(),
     );
   }
 }
 
-
 // Already Logged In
 class MyAppLoggedIn extends StatelessWidget {
   final UserModel userModel;
   final User firebaseUser;
 
-  const MyAppLoggedIn({Key? key, required this.userModel, required this.firebaseUser}) : super(key: key);
+  MyAppLoggedIn({Key? key, required this.userModel, required this.firebaseUser})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return   MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      // home: HomePage(userModel: userModel, firebaseUser: firebaseUser),
-      home: Meeting(),
+      home: Splash(),
     );
   }
 }

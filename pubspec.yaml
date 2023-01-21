@@ -50,13 +50,13 @@ dependencies:
   responsive_builder: ^0.4.3
   stream_chat_localizations: ^4.0.0
   dio: ^4.0.6
-  socket_io_client: ^2.0.0-beta.4-nullsafety.0
   firebase_storage:
   image_picker: ^0.8.4+1
   image_cropper: ^3.0.1
   uuid: ^3.0.5
   permission_handler:
-  jitsi_meet: ^4.0.0
+  logger: ^1.1.0
+  zego_uikit_prebuilt_call: ^1.4.2
 
 
 

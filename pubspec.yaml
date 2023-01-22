@@ -57,6 +57,7 @@ dependencies:
   permission_handler:
   logger: ^1.1.0
   zego_uikit_prebuilt_call: ^1.4.2
+  fluttertoast: ^8.1.2
 
 
 

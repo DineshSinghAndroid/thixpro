@@ -1,4 +1,3 @@
-import 'package:Thixpro/screens/messages/chat.dart';
 import 'package:Thixpro/screens/video_call.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,8 +17,8 @@ class _BottomNavbarsState extends State<BottomNavbars> {
   final List<Widget> screens = [
     HomeScreen(),
     VideoCall(),
-    ChatScreen(),
-    ChatScreen(),
+    VideoCall(),
+    VideoCall(),
   ];
 
   final PageStorageBucket list = PageStorageBucket();
@@ -113,7 +112,7 @@ class _BottomNavbarsState extends State<BottomNavbars> {
                     // minWidth: AddSize.size30,
                     onPressed: () {
                       setState(() {
-                        currentScreen = ChatScreen();
+                        currentScreen = VideoCall();
                         currentTab = 2;
                       });
                     },
@@ -147,7 +146,7 @@ class _BottomNavbarsState extends State<BottomNavbars> {
                     minWidth: AddSize.size40,
                     onPressed: () {
                       setState(() {
-                        currentScreen = ChatScreen();
+                        currentScreen = VideoCall();
                         currentTab = 3;
                       });
                     },

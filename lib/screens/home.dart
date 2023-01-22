@@ -1,13 +1,16 @@
 import 'package:Thixpro/screens/Pages/corporate.dart';
 import 'package:Thixpro/screens/Pages/itr.dart';
 import 'package:Thixpro/screens/Pages/tax.dart';
+import 'package:Thixpro/screens/messages/model/UserModel.dart';
 import 'package:Thixpro/screens/profile.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'Pages/gst.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({Key? key, UserModel? userModel, User? firebaseUser})
+      : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();

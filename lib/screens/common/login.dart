@@ -1,12 +1,16 @@
+import 'package:Thixpro/main.dart';
 import 'package:Thixpro/router/my_router.dart';
-import 'package:Thixpro/screens/messages/model/usermodel.dart';
+import 'package:Thixpro/screens/home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:Thixpro/screens/common/sign_up.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 import '../bottom_navbar.dart';
+import '../messages/model/UIHelper.dart';
+import '../messages/model/UserModel.dart';
 
 class Login extends StatefulWidget {
   bool? isVendorLogin;
@@ -29,29 +33,53 @@ class _LoginState extends State<Login> {
   void checkValues() {
     String email = emailController.text.trim();
     String password = passwordController.text.trim();
+
     if (email == "" || password == "") {
-      print("Dal de bhai email password");
+      Fluttertoast.showToast(
+          msg: "Enter Email and password",
+          backgroundColor: Colors.red,
+          gravity: ToastGravity.TOP);
     } else {
-      logins(email, password);
+      logIn(email, password);
     }
   }
 
-  void logins(String email, String password) async {
+  void logIn(String email, String password) async {
     UserCredential? credential;
+
+    UIHelper.showLoadingDialog(context, "Logging In..");
+
     try {
       credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (ex) {
-      print("Login Firebase error message " + ex.message.toString());
+      // Close the loading dialog
+      Navigator.pop(context);
+
+      // Show Alert Dialog
+      UIHelper.showAlertDialog(
+          context, "An error occured", ex.message.toString());
     }
 
     if (credential != null) {
       String uid = credential.user!.uid;
+
       DocumentSnapshot userData =
           await FirebaseFirestore.instance.collection('users').doc(uid).get();
       UserModel userModel =
           UserModel.fromMap(userData.data() as Map<String, dynamic>);
-      print("Login in sucessfull");
+
+      // Go to HomePage
+      logger.i("Log In Successful!");
+      Navigator.popUntil(context, (route) => route.isFirst);
+      logger.w(userModel.email, userModel.fullname);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) {
+          return HomeScreen(
+              userModel: userModel, firebaseUser: credential!.user!);
+        }),
+      );
     }
   }
 
@@ -73,19 +101,21 @@ class _LoginState extends State<Login> {
               ),
               // Spacer(),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                 child: Column(
                   children: [
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       width: MediaQuery.of(context).size.width,
                       height: 60,
                       decoration: BoxDecoration(
                           color: Colors.purple.withOpacity(0.1),
-                          borderRadius: BorderRadius.all(Radius.circular(30))),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(30))),
                       child: TextFormField(
                         controller: emailController,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                             hintText: "Your email",
                             hintStyle: TextStyle(color: Colors.black),
                             border: InputBorder.none,
@@ -96,19 +126,20 @@ class _LoginState extends State<Login> {
                       ),
                       alignment: Alignment.center,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       width: MediaQuery.of(context).size.width,
                       height: 65,
                       decoration: BoxDecoration(
                           color: Colors.purple.withOpacity(0.1),
-                          borderRadius: BorderRadius.all(Radius.circular(30))),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(30))),
                       child: TextFormField(
                         controller: passwordController,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                             hintText: "Your Password",
                             hintStyle: TextStyle(color: Colors.black),
                             border: InputBorder.none,
@@ -119,7 +150,7 @@ class _LoginState extends State<Login> {
                       ),
                       alignment: Alignment.center,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 40,
                     ),
                     GestureDetector(
@@ -129,12 +160,12 @@ class _LoginState extends State<Login> {
                       child: Container(
                         width: MediaQuery.of(context).size.width,
                         height: 55,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                             color: Colors.purple,
                             borderRadius:
                                 BorderRadius.all(Radius.circular(30))),
                         alignment: Alignment.center,
-                        child: Text(
+                        child: const Text(
                           "SIGN IN ",
                           style: TextStyle(
                               color: Colors.white,
@@ -143,24 +174,24 @@ class _LoginState extends State<Login> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 15),
+                    const SizedBox(height: 15),
                     GestureDetector(
                       onTap: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => SignUpScreen(),
+                              builder: (context) => const SignUpScreen(),
                             ));
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
+                          const Text(
                             "Don't have an Account?",
                             style: TextStyle(color: Colors.black, fontSize: 14),
                           ),
-                          Text(
+                          const Text(
                             " Sign Up",
                             style:
                                 TextStyle(color: Colors.purple, fontSize: 14),

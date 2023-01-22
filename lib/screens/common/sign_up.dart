@@ -4,15 +4,20 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../main.dart';
 import '../../resources/app_theme.dart';
 import '../../resources/new_helper.dart';
 import '../../widgets/add_text.dart';
 import '../../widgets/common_button.dart';
 import '../../widgets/sementions.dart';
-import '../messages/model/usermodel.dart';
+import '../../widgets/toast.dart';
+import '../messages/model/UIHelper.dart';
+import '../messages/model/UserModel.dart';
+import 'CompleteProfile.dart';
 import 'login.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -35,38 +40,55 @@ class _SignUpScreenState extends State<SignUpScreen> {
   void checkValues() {
     String email = emailController.text.trim();
     String password = passwordController.text.trim();
+
     if (email == "" || password == "") {
-      print("Dal de bhai email password");
+      Fluttertoast.showToast(
+        msg: "Please fill all details",
+        backgroundColor: Colors.red,
+      );
     } else {
-      signUps(email, password);
+      signUp(email, password);
+      Fluttertoast.showToast(
+        msg: "Registration Successful",
+        backgroundColor: Colors.green,
+      );
     }
   }
 
-  void signUps(String email, String password) async {
+  void signUp(String email, String password) async {
     UserCredential? credential;
+
+    UIHelper.showLoadingDialog(context, "Creating new account..");
+
     try {
       credential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (ex) {
-      print(ex.code.toString());
+      Navigator.pop(context);
+
+      UIHelper.showAlertDialog(
+          context, "An error occured", ex.message.toString());
     }
+
     if (credential != null) {
       String uid = credential.user!.uid;
-      UserModel newUser = UserModel(
-        uid: uid,
-        email: email,
-        fullName: '',
-        profilePic: '',
-      );
+      UserModel newUser =
+          UserModel(uid: uid, email: email, fullname: "", profilepic: "");
       await FirebaseFirestore.instance
           .collection("users")
           .doc(uid)
           .set(newUser.toMap())
-          .then((value) => (value) {
-                print("New User Created BROOOOOOOOOOOOO");
-              });
-    } else {
-      print("Not working bhai");
+          .then((value) {
+        print("New User Created!");
+        Navigator.popUntil(context, (route) => route.isFirst);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) {
+            return CompleteProfile(
+                userModel: newUser, firebaseUser: credential!.user!);
+          }),
+        );
+      });
     }
   }
 
@@ -139,25 +161,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   children: [
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      width: MediaQuery.of(context).size.width,
-                      height: 55,
-                      decoration: BoxDecoration(
-                          color: Colors.purple.withOpacity(0.1),
-                          borderRadius: BorderRadius.all(Radius.circular(30))),
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                            hintText: "Full Name",
-                            hintStyle: TextStyle(color: Colors.black),
-                            border: InputBorder.none,
-                            prefixIcon: Icon(
-                              Icons.person,
-                              color: Colors.purple,
-                            )),
-                      ),
-                      alignment: Alignment.center,
-                    ),
+                    // Container(
+                    //   padding: EdgeInsets.symmetric(horizontal: 20),
+                    //   width: MediaQuery.of(context).size.width,
+                    //   height: 55,
+                    //   decoration: BoxDecoration(
+                    //       color: Colors.purple.withOpacity(0.1),
+                    //       borderRadius: BorderRadius.all(Radius.circular(30))),
+                    //   child: TextFormField(
+                    //     decoration: InputDecoration(
+                    //         hintText: "Full Name",
+                    //         hintStyle: TextStyle(color: Colors.black),
+                    //         border: InputBorder.none,
+                    //         prefixIcon: Icon(
+                    //           Icons.person,
+                    //           color: Colors.purple,
+                    //         )),
+                    //   ),
+                    //   alignment: Alignment.center,
+                    // ),
                     SizedBox(
                       height: 20,
                     ),
@@ -223,7 +245,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                               color: AppTheme.boardercolor.withOpacity(0.5)),
-                          borderRadius: BorderRadius.circular(30.0),
+                          borderRadius: BorderRadius.circular(20.0),
                         ),
                         enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
@@ -258,28 +280,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       onChanged: (val) {
                         currentSelectedDocument.value = val;
                       },
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 15),
-                      width: MediaQuery.of(context).size.width,
-                      height: 55,
-                      decoration: BoxDecoration(
-                          color: Colors.purple.withOpacity(0.1),
-                          borderRadius: BorderRadius.all(Radius.circular(30))),
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                            hintText: "",
-                            hintStyle: TextStyle(color: Colors.black),
-                            border: InputBorder.none,
-                            prefixIcon: Icon(
-                              Icons.email,
-                              color: Colors.purple,
-                            )),
-                      ),
-                      alignment: Alignment.center,
                     ),
                     SizedBox(
                       height: 20,
@@ -421,25 +421,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     SizedBox(
                       height: 40,
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        checkValues();
-                      },
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 60,
-                        decoration: BoxDecoration(
-                            color: Colors.purple,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(30))),
-                        child: Text(
-                          "Register",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Colors.purple,
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                      child: MaterialButton(
+                        onPressed: () {
+                          checkValues();
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 50),
+                          child: Text(
+                            "Register",
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
-                        alignment: Alignment.center,
                       ),
                     ),
                     SizedBox(height: 15),

@@ -9,27 +9,19 @@ import 'login.dart';
 class VCallScreen extends StatelessWidget {
   final UserModel userModel;
   final User firebaseUser;
-  VCallScreen(
-      {Key? key,
-      required this.callID,
-      required this.userModel,
-      required this.firebaseUser})
-      : super(key: key);
+  VCallScreen({Key? key, required this.callID, required this.userModel, required this.firebaseUser}) : super(key: key);
   final String callID;
 
   @override
   Widget build(BuildContext context) {
     return ZegoUIKitPrebuiltCall(
-      appID: MyConst
-          .appId, // Fill in the appID that you get from ZEGOCLOUD Admin Console.
-      appSign: MyConst
-          .appSign, // Fill in the appSign that you get from ZEGOCLOUD Admin Console.
-      userID: callID,
+      appID: MyConst.appId, // Fill in the appID that you get from ZEGOCLOUD Admin Console.
+      appSign: MyConst.appSign, // Fill in the appSign that you get from ZEGOCLOUD Admin Console.
+      userID: userModel.uid.toString(),
       userName: userModel.fullname.toString(),
-      callID: userModel.uid.toString(),
+      callID: '2',
       // You can also use groupVideo/groupVoice/oneOnOneVoice to make more types of calls.
-      config: ZegoUIKitPrebuiltCallConfig.oneOnOneVideoCall()
-        ..onOnlySelfInRoom = (context) => Navigator.of(context).pop(),
+      config: ZegoUIKitPrebuiltCallConfig.oneOnOneVideoCall()..onOnlySelfInRoom = (context) => Navigator.of(context).pop(),
     );
   }
 }

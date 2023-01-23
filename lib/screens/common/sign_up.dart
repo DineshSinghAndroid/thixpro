@@ -329,95 +329,95 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     SizedBox(
                       height: 20,
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _image.value.path == ""
-                            ? Padding(
-                                padding:
-                                    EdgeInsets.only(right: AddSize.size125),
-                                child: AddButton(
-                                    titleText: " Attach File",
-                                    expended: false,
-                                    isIcon: true,
-                                    onPresses: () {
-                                      showPickImageSheet();
-                                    },
-                                    outSideMargin: 10),
-                              )
-                            : Stack(
-                                children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: const Color(0xfff4f4f4),
-                                        image: DecorationImage(
-                                            image: FileImage(
-                                              File(_image.value.path),
-                                            ),
-                                            fit: BoxFit.contain),
-                                        border: Border.all(
-                                            width: 2, color: Colors.black)),
-                                    margin: const EdgeInsets.symmetric(
-                                        vertical: 15, horizontal: 15),
-                                    width: double.maxFinite,
-                                    height: 180,
-                                    alignment: Alignment.center,
-                                    child: _image.value.path
-                                                    .toString()
-                                                    .split(".")
-                                                    .last ==
-                                                "pdf" ||
-                                            _image.value.path
-                                                    .toString()
-                                                    .split(".")
-                                                    .last ==
-                                                "doc" ||
-                                            _image.value.path
-                                                    .toString()
-                                                    .split(".")
-                                                    .last ==
-                                                "docx" ||
-                                            _image.value.path
-                                                    .toString()
-                                                    .split(".")
-                                                    .last ==
-                                                "wps"
-                                        ? Text(
-                                            _image.value.path
-                                                .toString()
-                                                .split("/")
-                                                .last,
-                                            style:
-                                                const TextStyle(fontSize: 16),
-                                          )
-                                        : const SizedBox(),
-                                    // child: Text(fileName.toString()),
-                                  ),
-                                  Positioned(
-                                      top: 0,
-                                      left: 0,
-                                      child: InkWell(
-                                        onTap: () {
-                                          _image.value.delete();
-                                          _image.value = File("");
-                                        },
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            color: Colors.black.withOpacity(.6),
-                                            shape: BoxShape.circle,
-                                          ),
-                                          padding: const EdgeInsets.all(8),
-                                          child: const Icon(
-                                            Icons.clear,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      )),
-                                ],
-                              ),
-                      ],
-                    ),
+                    // Column(
+                    //   crossAxisAlignment: CrossAxisAlignment.start,
+                    //   children: [
+                    //     _image.value.path == ""
+                    //         ? Padding(
+                    //             padding:
+                    //                 EdgeInsets.only(right: AddSize.size125),
+                    //             child: AddButton(
+                    //                 titleText: " Attach File",
+                    //                 expended: false,
+                    //                 isIcon: true,
+                    //                 onPresses: () {
+                    //                   showPickImageSheet();
+                    //                 },
+                    //                 outSideMargin: 10),
+                    //           )
+                    //         : Stack(
+                    //             children: [
+                    //               Container(
+                    //                 decoration: BoxDecoration(
+                    //                     borderRadius: BorderRadius.circular(10),
+                    //                     color: const Color(0xfff4f4f4),
+                    //                     image: DecorationImage(
+                    //                         image: FileImage(
+                    //                           File(_image.value.path),
+                    //                         ),
+                    //                         fit: BoxFit.contain),
+                    //                     border: Border.all(
+                    //                         width: 2, color: Colors.black)),
+                    //                 margin: const EdgeInsets.symmetric(
+                    //                     vertical: 15, horizontal: 15),
+                    //                 width: double.maxFinite,
+                    //                 height: 180,
+                    //                 alignment: Alignment.center,
+                    //                 child: _image.value.path
+                    //                                 .toString()
+                    //                                 .split(".")
+                    //                                 .last ==
+                    //                             "pdf" ||
+                    //                         _image.value.path
+                    //                                 .toString()
+                    //                                 .split(".")
+                    //                                 .last ==
+                    //                             "doc" ||
+                    //                         _image.value.path
+                    //                                 .toString()
+                    //                                 .split(".")
+                    //                                 .last ==
+                    //                             "docx" ||
+                    //                         _image.value.path
+                    //                                 .toString()
+                    //                                 .split(".")
+                    //                                 .last ==
+                    //                             "wps"
+                    //                     ? Text(
+                    //                         _image.value.path
+                    //                             .toString()
+                    //                             .split("/")
+                    //                             .last,
+                    //                         style:
+                    //                             const TextStyle(fontSize: 16),
+                    //                       )
+                    //                     : const SizedBox(),
+                    //                 // child: Text(fileName.toString()),
+                    //               ),
+                    //               Positioned(
+                    //                   top: 0,
+                    //                   left: 0,
+                    //                   child: InkWell(
+                    //                     onTap: () {
+                    //                       _image.value.delete();
+                    //                       _image.value = File("");
+                    //                     },
+                    //                     child: Container(
+                    //                       decoration: BoxDecoration(
+                    //                         color: Colors.black.withOpacity(.6),
+                    //                         shape: BoxShape.circle,
+                    //                       ),
+                    //                       padding: const EdgeInsets.all(8),
+                    //                       child: const Icon(
+                    //                         Icons.clear,
+                    //                         color: Colors.white,
+                    //                       ),
+                    //                     ),
+                    //                   )),
+                    //             ],
+                    //           ),
+                    //   ],
+                    // ),
                     SizedBox(
                       height: 40,
                     ),

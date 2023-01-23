@@ -1,4 +1,6 @@
+import 'package:Thixpro/screens/videocall/home.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class MyLogin extends StatelessWidget {
   const MyLogin({Key? key}) : super(key: key);
@@ -38,7 +40,11 @@ class MyLogin extends StatelessWidget {
             ),
             ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, "home");
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MyHome(),
+                      ));
                 },
                 child: Text("Submit"))
           ],

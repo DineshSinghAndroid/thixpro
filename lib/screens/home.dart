@@ -9,7 +9,9 @@ import 'package:flutter/material.dart';
 import 'Pages/gst.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key, UserModel? userModel, User? firebaseUser})
+  final UserModel userModel;
+  final User firebaseUser;
+  HomeScreen({Key? key, required this.userModel, required this.firebaseUser})
       : super(key: key);
 
   @override
@@ -23,9 +25,9 @@ class _HomeScreenState extends State<HomeScreen> {
     int index;
     return Scaffold(
         appBar: AppBar(
-          title: Text("Chatting App"),
+          title: const Text("Chatting App"),
           leading: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             child: GestureDetector(
               onTap: () {
                 Navigator.push(
@@ -36,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               child: Container(
                 height: 20,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(50)),
                     image: DecorationImage(
                       image: AssetImage('assets/images/adv.jpg'),
@@ -57,20 +59,19 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Column(
                         children: [
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: Container(
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 border: Border(
                                     bottom: BorderSide(
                                         color: Colors.purple, width: 0.3)),
                               ),
-                              child: TabBar(
+                              child: const TabBar(
                                 unselectedLabelColor: Colors.black,
                                 unselectedLabelStyle: TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontSize: 14,
-                                    color:
-                                        const Color.fromRGBO(142, 142, 142, 1)),
+                                    color: Color.fromRGBO(142, 142, 142, 1)),
                                 labelColor: Colors.black,
                                 labelPadding: EdgeInsets.zero,
                                 labelStyle: TextStyle(
@@ -84,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       color: Colors.blue, width: 10 * .3),
                                 ),
                                 isScrollable: false,
-                                tabs: const [
+                                tabs: [
                                   Tab(
                                     text: 'GST',
                                   ),
@@ -101,7 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                         ],
@@ -111,7 +112,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
                 body: TabBarView(
                   children: [
-                    GstScreen(),
+                    GstScreen(
+                      userModel: widget.userModel,
+                      firebaseUser: widget.firebaseUser,
+                    ),
                     CorporateScreen(),
                     TaxScreen(),
                     ITRScreen(),

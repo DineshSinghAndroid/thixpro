@@ -1,8 +1,12 @@
+import 'package:Thixpro/screens/bottom_navbar.dart';
 import 'package:Thixpro/screens/common/login.dart';
 import 'package:Thixpro/screens/home.dart';
+import 'package:Thixpro/screens/messages/chats/SearchPage.dart';
 import 'package:Thixpro/screens/messages/chats/chatScreen.dart';
 import 'package:Thixpro/screens/messages/model/FirebaseHelper.dart';
 import 'package:Thixpro/screens/messages/model/UserModel.dart';
+import 'package:Thixpro/screens/videocall/home.dart';
+import 'package:Thixpro/screens/videocall/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -58,7 +62,13 @@ class MyAppLoggedIn extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: ChatScreen(userModel: userModel, firebaseUser: firebaseUser),
+      home: MyLogin(),
+      // home: HomeScreen(
+      //   firebaseUser: firebaseUser,
+      //   userModel: userModel,
+      // ),
+      //
+      //
     );
   }
 }

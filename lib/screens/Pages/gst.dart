@@ -1,6 +1,7 @@
 import 'package:Thixpro/screens/user/VendorProfile.dart';
 import 'package:Thixpro/widgets/add_text.dart';
 import 'package:Thixpro/widgets/sementions.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,8 +9,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
+import '../messages/chats/SearchPage.dart';
+import '../messages/model/UserModel.dart';
+
 class GstScreen extends StatefulWidget {
-  const GstScreen({Key? key}) : super(key: key);
+  final UserModel userModel;
+  final User firebaseUser;
+  GstScreen({Key? key, required this.userModel, required this.firebaseUser})
+      : super(key: key);
 
   @override
   State<GstScreen> createState() => _GstScreenState();
@@ -85,17 +92,17 @@ class _GstScreenState extends State<GstScreen> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Align(
+                                Align(
                                     alignment: AlignmentDirectional.topStart,
                                     child: Text(
-                                      "GST Vendors",
+                                      widget.userModel.fullname.toString(),
                                       style: TextStyle(
                                           fontSize: 14,
                                           color: Colors.black,
                                           fontWeight: FontWeight.w700),
                                     )),
-                                const Text("5 year exp"),
-                                const SizedBox(
+                                Text("GST"),
+                                SizedBox(
                                   height: 10,
                                 ),
                                 Row(
@@ -134,7 +141,16 @@ class _GstScreenState extends State<GstScreen> {
                                               Radius.circular(50))),
                                       child: FittedBox(
                                         child: MaterialButton(
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            Navigator.push(context,
+                                                MaterialPageRoute(
+                                                    builder: (context) {
+                                              return SearchPage(
+                                                  userModel: widget.userModel,
+                                                  firebaseUser:
+                                                      widget.firebaseUser);
+                                            }));
+                                          },
                                           child: Row(
                                             children: [
                                               const Icon(Icons.message),

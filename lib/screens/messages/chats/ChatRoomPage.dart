@@ -34,6 +34,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
     messageController.clear();
 
     if (msg != "") {
+      logger.w("Message is :$msg");
       // Send Message
       MessageModel newMessage = MessageModel(
           messageid: uuid.v1(),
@@ -54,8 +55,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
           .collection("chatrooms")
           .doc(widget.chatroom.chatroomid)
           .set(widget.chatroom.toMap());
-
-      log("Message Sent!");
+      logger.i("Message Sent");
     }
   }
 

@@ -113,7 +113,7 @@ class MapScreenState extends State<ProfilePage>
                                 mainAxisSize: MainAxisSize.min,
                                 children: const <Widget>[
                                   Text(
-                                    'Parsonal Information',
+                                    'Personal Information',
                                     style: TextStyle(
                                         fontSize: 18.0,
                                         fontWeight: FontWeight.bold),

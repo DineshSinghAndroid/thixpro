@@ -7,10 +7,13 @@ import 'contants.dart';
 import 'login.dart';
 
 class VCallScreen extends StatelessWidget {
-  final UserModel? userModel;
-  final User? firebaseUser;
+  final UserModel userModel;
+  final User firebaseUser;
   VCallScreen(
-      {Key? key, required this.callID, this.userModel, this.firebaseUser})
+      {Key? key,
+      required this.callID,
+      required this.userModel,
+      required this.firebaseUser})
       : super(key: key);
   final String callID;
 
@@ -21,9 +24,9 @@ class VCallScreen extends StatelessWidget {
           .appId, // Fill in the appID that you get from ZEGOCLOUD Admin Console.
       appSign: MyConst
           .appSign, // Fill in the appSign that you get from ZEGOCLOUD Admin Console.
-      userID: MyLogin.userId,
-      userName: MyLogin.name,
-      callID: '1',
+      userID: callID,
+      userName: userModel.fullname.toString(),
+      callID: userModel.uid.toString(),
       // You can also use groupVideo/groupVoice/oneOnOneVoice to make more types of calls.
       config: ZegoUIKitPrebuiltCallConfig.oneOnOneVideoCall()
         ..onOnlySelfInRoom = (context) => Navigator.of(context).pop(),

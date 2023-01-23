@@ -261,8 +261,8 @@ class _SearchPageState extends State<SearchPage> {
                                                               widget.userModel,
                                                           firebaseUser: widget
                                                               .firebaseUser,
-                                                          callID: searchedUser
-                                                              .uid
+                                                          callID: widget
+                                                              .userModel.uid
                                                               .toString());
 
                                                       // return ChatRoomPage(targetUser: searchedUser, userModel: widget.userModel,
